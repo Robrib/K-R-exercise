@@ -11,6 +11,7 @@ main()
 {
 	int len;
 	char line[MAXLINE];
+	
 	while ((len = get_line(line, MAXLINE)) > 0) {
 		reserve(line, len);
 		printf("%s", line);

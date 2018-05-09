@@ -7,15 +7,29 @@
 #define MAXLINE 1000
 #define TAB_LENGTH 8
 int get_line(char line[], int maxline);
-void detab(char line[]);
+
 
 main()
 {
-	int len;
+	int len, i, j;
 	char line[MAXLINE];
 	
+	j = 0;
 	while ((len = get_line(line, MAXLINE)) > 0) {
-		detab(line);
+		for (i = 0; i < len; ++i) {
+			if (line[i] == '\t') {
+				putchar('\n');
+				j = 0;
+			}
+			else {
+				putchar(line[i]);
+				++j;
+				if (j % TAB_LENGTH == 0) {
+					putchar('\n');
+					j = 0;
+				}
+			}
+		}
 	}
 	return 0;
 }
@@ -34,24 +48,3 @@ int get_line(char s[], int lim)
 	return i;
 }
 
-void detab(char line[])
-{
-	int i, j, t, count;
-	
-	count = 0;
-	i = 0;
-	while (line[i] != '\0') {
-		if (line[i] == '\t') {
-			t = TAB_LENGTH - (count % TAB_LENGTH);
-			for(j = 0; j < t; ++j) {
-				putchar(' ');
-				++count;
-			}
-		}
-		else {
-			putchar(line[i]);
-			++count;
-		}
-		++i;
-	}	
-}
