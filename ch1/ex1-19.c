@@ -5,29 +5,16 @@
 #include <stdio.h>
 #define MAXLINE 1000
 int get_line(char line[], int maxline);
-
+void reserve(char line[], int len);
 
 main()
 {
-	int len, c, i, j;
+	int len;
 	char line[MAXLINE];
-
 	while ((len = get_line(line, MAXLINE)) > 0) {
-		if (line[0] == '\n')
-			continue;
-		if ((line[len - 2] == '\t' || line[len - 2] == ' ') && line[len - 1] == '\n') {
-			i = len - 2;
-			while(line[i] == '\t' || line[i] == ' ')
-				--i;
-			for (j = 0; j <= i; ++j)
-				putchar(line[j]);
-			putchar('\n');
-		}
-		else {
-			printf("%s", line);
-		}
+		reserve(line, len);
+		printf("%s", line);
 	}
-	return 0;
 }
 
 int get_line(char s[], int lim)
@@ -42,4 +29,21 @@ int get_line(char s[], int lim)
 	}
 	s[i] = '\0';
 	return i;
+}
+
+void reserve(char line[], int len)
+{
+	int i, j, c;
+	
+	i = 0;
+	j = len - 1;
+	if (line[len - 1] == '\n')
+		--j;
+	while (j > i) {
+		c = line[i];
+		line[i] = line[j];
+		line[j] = c;
+		++i;
+		--j;
+	}
 }
